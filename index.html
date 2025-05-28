@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFT - Análise Consolidada</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+        
+        .slide {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .slide:hover {
+            transform: translateY(-5px);
+        }
+        
+        .slide-title {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+        
+        .chart-small {
+            height: 300px;
+        }
+        
+        .chart-large {
+            height: 500px;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+        
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 0.9em;
+        }
+        
+        th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+        
+        .status-deficit {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .status-equilibrio {
+            background-color: #f39c12;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .status-excesso {
+            background-color: #27ae60;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .gargalo-item {
+            background: #ecf0f1;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .gargalo-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .recomendacao {
+            background: #d5f4e6;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .alert-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .alert-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .metodologia-box {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .coordenadoria-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 5px solid #3498db;
+        }
+
+        .coordenadoria-card.samambaia {
+            border-left-color: #3498db;
+        }
+
+        .coordenadoria-card.paranoa {
+            border-left-color: #e74c3c;
+        }
+
+        .coordenadoria-card.recanto {
+            border-left-color: #27ae60;
+        }
+
+        .pontos-fortes {
+            background: #d5f4e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .desafios {
+            background: #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .eixo-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .eixo-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .percentual-box {
+            display: inline-block;
+            background: rgba(0,0,0,0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin: 2px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .two-column, .three-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .slide {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏛️ Resultado da Análise de Gargalos</h1>
+            <p>Análise Consolidada - CPJSA | CPJPA | CPJRE</p>
+            <p style="margin-top: 10px; font-size: 1em; color: #95a5a6;">Ministério Público do Distrito Federal e Territórios</p>
+        </div>
+
+        <!-- Slide 4: Pontos Fortes e Desafios por Coordenadoria -->
+        <div class="slide">
+            <h2 class="slide-title">⚖️ Pontos Fortes e Desafios por Coordenadoria</h2>
+            
+            <div class="coordenadoria-card samambaia">
+                <h3 style="color: #3498db; margin-bottom: 15px;">🔵 CPJSA - Samambaia</h3>
+                <div class="two-column">
+                    <div class="pontos-fortes">
+                        <h4 style="color: #27ae60; margin-bottom: 10px;">✅ Pontos Fortes</h4>
+                        <p>• <strong>Equipe comprometida:</strong> Alto engajamento nas tarefas</p>
+                        <p>• <strong>Liderança efetiva:</strong> Gestores atentos aos processos</p>
+                        <p>• <strong>Clima positivo:</strong> Apoio mútuo e relações saudáveis</p>
+                        <p>• <strong>Capacidade instalada:</strong> 5 servidores excedentes identificados</p>
+                    </div>
+                    <div class="desafios">
+                        <h4 style="color: #e74c3c; margin-bottom: 10px;">⚠️ Principais Desafios</h4>
+                        <p>• <strong>Afastamentos elevados:</strong> Acima da média do MPDFT</p>
+                        <p>• <strong>Resistência a afastamentos:</strong> Cultura de "trabalhar doente"</p>
+                        <p>• <strong>Comunicação ineficiente:</strong> Entre subunidades</p>
+                        <p>• <strong>Aposentadorias previstas:</strong> Risco de perda de conhecimento</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="coordenadoria-card paranoa">
+                <h3 style="color: #e74c3c; margin-bottom: 15px;">🔴 CPJPA - Paranoá</h3>
+                <div class="two-column">
+                    <div class="pontos-fortes">
+                        <h4 style="color: #27ae60; margin-bottom: 10px;">✅ Pontos Fortes</h4>
+                        <p>• <strong>Liderança participativa:</strong> Gestores engajam toda equipe</p>
+                        <p>• <strong>Clima harmonioso:</strong> Ambiente colaborativo</p>
+                        <p>• <strong>Equipe polivalente:</strong> Servidores bem treinados</p>
+                        <p>• <strong>Uso adequado de TI:</strong> Melhor utilização de sistemas</p>
+                    </div>
+                    <div class="desafios">
+                        <h4 style="color: #e74c3c; margin-bottom: 10px;">⚠️ Principais Desafios</h4>
+                        <p>• <strong>Déficit real:</strong> 2 servidores a menos que o necessário</p>
+                        <p>• <strong>Equipamentos obsoletos:</strong> Limitam produtividade</p>
+                        <p>• <strong>Baixa adesão a treinamentos:</strong> Por sobrecarga</p>
+                        <p>• <strong>Substituição de membros:</strong> Processo estressante</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="coordenadoria-card recanto">
+                <h3 style="color: #27ae60; margin-bottom: 15px;">🟢 CPJRE - Recanto das Emas</h3>
+                <div class="two-column">
+                    <div class="pontos-fortes">
+                        <h4 style="color: #27ae60; margin-bottom: 10px;">✅ Pontos Fortes</h4>
+                        <p>• <strong>Sistema unificado:</strong> Cartório + SEMA integrados</p>
+                        <p>• <strong>Equipe versátil:</strong> Todos treinados para múltiplas funções</p>
+                        <p>• <strong>Gestão participativa:</strong> Espaço seguro para opiniões</p>
+                        <p>• <strong>Capacidade excedente:</strong> 5 servidores além do necessário</p>
+                    </div>
+                    <div class="desafios">
+                        <h4 style="color: #e74c3c; margin-bottom: 10px;">⚠️ Principais Desafios</h4>
+                        <p>• <strong>Divisão geográfica:</strong> Coordenadoria em duas cidades</p>
+                        <p>• <strong>Dependência do WhatsApp:</strong> Comunicação inadequada</p>
+                        <p>• <strong>Prazos urgentes:</strong> 85% relatam demandas urgentes</p>
+                        <p>• <strong>Inconsistência de modelos:</strong> Falta padronização</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Análise de Gargalos por Eixos Estruturais -->
+        <div class="slide">
+            <h2 class="slide-title">🏗️ Análise de Gargalos Estruturais por Eixos</h2>
+            
+            <div class="two-column">
+                <div class="eixo-card">
+                    <div class="eixo-title">🔄 Eixo 1: Processos e Organização</div>
+                    <p><strong>Gargalos Identificados:</strong></p>
+                    <p>• <strong>Demandas urgentes:</strong> 
+                        <span class="percentual-box">CPJSA: 73%</span>
+                        <span class="percentual-box">CPJPA: 36%</span>
+                        <span class="percentual-box">CPJRE: 85%</span>
+                    </p>
+                    <p>• <strong>Trabalho fora expediente:</strong>
+                        <span class="percentual-box">CPJSA: 68%</span>
+                        <span class="percentual-box">CPJPA: 45%</span>
+                        <span class="percentual-box">CPJRE: 50%</span>
+                    </p>
+                    <p>• <strong>Falta de padronização:</strong> Inconsistência em modelos e fluxos</p>
+                    <p>• <strong>Divisão geográfica:</strong> CPJRE opera em duas cidades</p>
+                </div>
+
+                <div class="eixo-card">
+                    <div class="eixo-title">👥 Eixo 2: Qualidade de Vida</div>
+                    <p><strong>Gargalos Identificados:</strong></p>
+                    <p>• <strong>Acúmulo responsabilidades:</strong>
+                        <span class="percentual-box">CPJSA: 73%</span>
+                        <span class="percentual-box">CPJPA: -</span>
+                        <span class="percentual-box">CPJRE: 71%</span>
+                    </p>
+                    <p>• <strong>Receio de afastamentos:</strong>
+                        <span class="percentual-box">CPJSA: 77%</span>
+                        <span class="percentual-box">CPJPA: 45%</span>
+                        <span class="percentual-box">CPJRE: 64%</span>
+                    </p>
+                    <p>• <strong>Estrutura física inadequada:</strong> Especialmente SEMA (CPJSA e CPJRE)</p>
+                    <p>• <strong>Afastamentos acima da média:</strong> CPJSA com índices elevados</p>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="eixo-card">
+                    <div class="eixo-title">📊 Eixo 3: Gestão</div>
+                    <p><strong>Gargalos Identificados:</strong></p>
+                    <p>• <strong>Interrupções frequentes:</strong>
+                        <span class="percentual-box">CPJSA: 55%</span>
+                        <span class="percentual-box">CPJPA: 45%</span>
+                        <span class="percentual-box">CPJRE: 50%</span>
+                    </p>
+                    <p>• <strong>Distribuição desigual:</strong> Trabalho concentrado em poucos</p>
+                    <p>• <strong>Comunicação ineficiente:</strong> Entre subunidades</p>
+                    <p>• <strong>Baixa adesão treinamentos:</strong> Por sobrecarga percebida</p>
+                    <p>• <strong>Processo substituição membros:</strong> Causa estresse nas equipes</p>
+                </div>
+
+                <div class="eixo-card">
+                    <div class="eixo-title">💻 Eixo 4: Tecnologia da Informação</div>
+                    <p><strong>Gargalos Identificados:</strong></p>
+                    <p>• <strong>Baixa utilização Teams:</strong>
+                        <span class="percentual-box">CPJSA: 45%</span>
+                        <span class="percentual-box">CPJPA: 36%</span>
+                        <span class="percentual-box">CPJRE: 50%</span>
+                    </p>
+                    <p>• <strong>Dependência WhatsApp:</strong> Comunicação inadequada</p>
+                    <p>• <strong>Sistemas lentos/desatualizados:</strong>
+                        <span class="percentual-box">CPJSA: 41%</span>
+                        <span class="percentual-box">CPJPA: -</span>
+                        <span class="percentual-box">CPJRE: 64%</span>
+                    </p>
+                    <p>• <strong>Equipamentos obsoletos:</strong> Especialmente CPJPA</p>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">🔍 Análise Transversal dos Eixos</div>
+                <p><strong>Padrão Identificado:</strong> Os gargalos se retroalimentam criando um ciclo vicioso. A sobrecarga nos processos (Eixo 1) gera resistência a treinamentos e afastamentos (Eixos 2 e 3), que por sua vez mantêm o uso de ferramentas inadequadas (Eixo 4), perpetuando a ineficiência processual.</p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Análise de Sobrecarga -->
+        <div class="slide">
+            <h2 class="slide-title">🚨 Mapa de Gargalos - Análise Consolidada</h2>
+            
+            <div class="two-column">
+                <div>
+                    <div class="chart-container">
+                        <canvas id="sobrecargaPercebida"></canvas>
+                    </div>
+                    
+                    <div class="chart-container chart-small">
+                        <canvas id="comparativoEixos"></canvas>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">🔥 Gargalos Críticos (>70%)</h3>
+                    
+                    <div class="gargalo-item">
+                        <div class="gargalo-title">🥇 Mais Crítico: Demandas Urgentes (CPJRE)</div>
+                        <p><strong>85%</strong> dos servidores relatam demandas urgentes frequentes</p>
+                        <p><strong>Impacto:</strong> Impossibilita planejamento e gera estresse constante</p>
+                    </div>
+                    
+                    <div class="gargalo-item">
+                        <div class="gargalo-title">🥈 Segundo: Receio de Afastamentos (CPJSA)</div>
+                        <p><strong>77%</strong> têm ansiedade/receio de se afastar</p>
+                        <p><strong>Impacto:</strong> Trabalho mesmo doente, burnout, adoecimento</p>
+                    </div>
+                    
+                    <div class="gargalo-item">
+                        <div class="gargalo-title">🥉 Terceiro: Acúmulo Responsabilidades</div>
+                        <p><strong>CPJSA: 73%</strong> | <strong>CPJRE: 71%</strong></p>
+                        <p><strong>Impacto:</strong> Sobrecarga individual e queda de qualidade</p>
+                    </div>
+
+                    <h3 style="margin: 20px 0 15px 0; color: #2c3e50;">📊 Ranking de Severidade</h3>
+                    <div class="table-container">
+                        <table style="font-size: 0.8em;">
+                            <thead>
+                                <tr><th>Posição</th><th>Gargalo</th><th>Coordenadoria</th><th>%</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>1º</td><td>Demandas Urgentes</td><td>CPJRE</td><td>85%</td></tr>
+                                <tr><td>2º</td><td>Receio Afastamentos</td><td>CPJSA</td><td>77%</td></tr>
+                                <tr><td>3º</td><td>Acúmulo Responsab.</td><td>CPJSA</td><td>73%</td></tr>
+                                <tr><td>4º</td><td>Demandas Urgentes</td><td>CPJSA</td><td>73%</td></tr>
+                                <tr><td>5º</td><td>Acúmulo Responsab.</td><td>CPJRE</td><td>71%</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Comportamentos Organizacionais e Aspectos Culturais -->
+        <div class="slide">
+            <h2 class="slide-title">🧠 Comportamentos Organizacionais e Aspectos Culturais</h2>
+            
+            <div class="alert-box">
+                <div class="alert-title">🔍 Análise dos Padrões de Comportamento</div>
+                <p>Identificação dos padrões de comportamento individual e coletivo que impactam o ambiente de trabalho e a saúde organizacional nas três coordenadorias.</p>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">🔴 Comportamentos Disfuncionais Identificados</h3>
+                    
+                    <div class="gargalo-item">
+                        <div class="gargalo-title">1. Cultura do "Herói" (Presente em todas)</div>
+                        <p><strong>Manifestação:</strong> Servidores trabalham mesmo doentes, evitam afastamentos</p>
+                        <p><strong>Impacto:</strong> 77% (CPJSA) têm receio de se afastar</p>
+                        <p><strong>Consequência:</strong> Burnout, adoecimento, perpetuação da sobrecarga</p>
+                    </div>
+                    
+                    <div class="gargalo-item">
+                        <div class="gargalo-title">2. Resistência à Inovação Tecnológica</div>
+                        <p><strong>Manifestação:</strong> Baixa adesão ao Teams, preferência pelo WhatsApp</p>
+                        <p><strong>Dados:</strong> 50% ainda usam ferramentas não oficiais</p>
+                        <p><strong>Consequência:</strong> Comunicação ineficiente, demandas fora do expediente</p>
+                    </div>
+                    
+                    <div class="gargalo-item">
+                        <div class="gargalo-title">3. Individualismo vs Colaboração</div>
+                        <p><strong>Manifestação:</strong> Concentração de conhecimento em poucas pessoas</p>
+                        <p><strong>Risco:</strong> Aposentadorias previstas podem causar perda crítica</p>
+                        <p><strong>Consequência:</strong> Dependência excessiva de indivíduos específicos</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #27ae60;">🟢 Comportamentos Positivos a Potencializar</h3>
+                    
+                    <div class="recomendacao">
+                        <div class="gargalo-title">1. Senso de Pertencimento e Coletividade</div>
+                        <p><strong>CPJPA:</strong> "Todos cuidam de todos", forte senso de companheirismo</p>
+                        <p><strong>CPJRE:</strong> Sistema unificado cartório+SEMA com cross-training</p>
+                        <p><strong>Oportunidade:</strong> Replicar modelo colaborativo nas outras coordenadorias</p>
+                    </div>
+                    
+                    <div class="recomendacao">
+                        <div class="gargalo-title">2. Engajamento e Comprometimento</div>
+                        <p><strong>Evidência:</strong> Equipes reconhecidas como "comprometidas e eficazes"</p>
+                        <p><strong>Potencial:</strong> Alto engajamento em melhorias quando bem direcionado</p>
+                        <p><strong>Estratégia:</strong> Canalizar energia para mudanças estruturais</p>
+                    </div>
+                    
+                    <div class="recomendacao">
+                        <div class="gargalo-title">3. Liderança Participativa</div>
+                        <p><strong>Característica:</strong> Gestores promovem participação da equipe</p>
+                        <p><strong>Resultado:</strong> Ambiente seguro para expressar opiniões</p>
+                        <p><strong>Vantagem:</strong> Facilita implementação de mudanças</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="three-column">
+                <div class="eixo-card">
+                    <div class="eixo-title">🎭 Aspectos Culturais CPJSA</div>
+                    <p><strong>Cultura Dominante:</strong> "Eficiência a qualquer custo"</p>
+                    <p><strong>Valor Positivo:</strong> Alto padrão de qualidade</p>
+                    <p><strong>Desafio:</strong> Sustentabilidade pessoal</p>
+                    <p><strong>Necessidade:</strong> Equilibrar excelência com bem-estar</p>
+                </div>
+
+                <div class="eixo-card">
+                    <div class="eixo-title">🤝 Aspectos Culturais CPJPA</div>
+                    <p><strong>Cultura Dominante:</strong> "Colaboração e apoio mútuo"</p>
+                    <p><strong>Valor Positivo:</strong> Resiliência coletiva</p>
+                    <p><strong>Desafio:</strong> Recursos limitados</p>
+                    <p><strong>Necessidade:</strong> Fortalecer estrutura mantendo união</p>
+                </div>
+
+                <div class="eixo-card">
+                    <div class="eixo-title">🌐 Aspectos Culturais CPJRE</div>
+                    <p><strong>Cultura Dominante:</strong> "Adaptabilidade e versatilidade"</p>
+                    <p><strong>Valor Positivo:</strong> Flexibilidade operacional</p>
+                    <p><strong>Desafio:</strong> Fragmentação geográfica</p>
+                    <p><strong>Necessidade:</strong> Integração física e digital</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Plano de Implementação e Cronograma -->
+        <div class="slide">
+            <h2 class="slide-title">📅 Plano de Implementação e Cronograma</h2>
+            
+            <div class="chart-container chart-small">
+                <canvas id="cronogramaImplementacao"></canvas>
+            </div>
+
+            <div class="recomendacao" style="margin-bottom: 20px;">
+                <div class="gargalo-title">🚀 Eixo 1: Otimização Imediata de Processos (0-3 meses)</div>
+                <div class="two-column">
+                    <div>
+                        <p><strong>1.1 Gestão de Demandas Urgentes</strong></p>
+                        <p>• Criar matriz de priorização (Urgente x Importante)</p>
+                        <p>• Definir SLA por tipo de demanda</p>
+                        <p>• Implementar triagem centralizada</p>
+                        
+                        <p><strong>1.2 Padronização de Fluxos</strong></p>
+                        <p>• Mapear processos críticos de cada subunidade</p>
+                        <p>• Criar procedimentos operacionais padrão (POPs)</p>
+                        <p>• Implementar checklists obrigatórios</p>
+                    </div>
+                    <div>
+                        <p><strong>1.3 Redistribuição de Atividades</strong></p>
+                        <p>• Transferir atividades administrativas de SAD/SECAD</p>
+                        <p>• Equilibrar carga entre servidores do Cartório</p>
+                        <p>• Criar sistema de backup/substituição</p>
+                        
+                        <p><strong>Meta:</strong> Reduzir em 30% as demandas classificadas como urgentes</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recomendacao" style="margin-bottom: 20px;">
+                <div class="gargalo-title">🔧 Eixo 2: Transformação Tecnológica (1-6 meses)</div>
+                <div class="two-column">
+                    <div>
+                        <p><strong>2.1 Migração Completa para Teams</strong></p>
+                        <p>• Treinamento obrigatório para 100% da equipe</p>
+                        <p>• Desativação progressiva do WhatsApp</p>
+                        <p>• Criação de canais específicos por atividade</p>
+                        
+                        <p><strong>2.2 Modernização de Sistemas</strong></p>
+                        <p>• Atualização do NeoGab e sistemas SEMA</p>
+                        <p>• Substituição de equipamentos obsoletos</p>
+                        <p>• Implementação de automações básicas</p>
+                    </div>
+                    <div>
+                        <p><strong>2.3 Capacitação Digital</strong></p>
+                        <p>• Programa de alfabetização digital</p>
+                        <p>• Certificação em ferramentas do Office 365</p>
+                        <p>• Criação de embaixadores digitais</p>
+                        
+                        <p><strong>Meta:</strong> 100% dos membros utilizando Teams até dezembro/2025</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recomendacao" style="margin-bottom: 20px;">
+                <div class="gargalo-title">👥 Eixo 3: Transformação Cultural e Gestão de Pessoas (3-12 meses)</div>
+                <div class="two-column">
+                    <div>
+                        <p><strong>3.1 Cultura do Autocuidado</strong></p>
+                        <p>• Campanha "Cuidar de Si é Cuidar do Trabalho"</p>
+                        <p>• Política clara sobre afastamentos médicos</p>
+                        <p>• Reconhecimento de quem se afasta adequadamente</p>
+                        
+                        <p><strong>3.2 Desenvolvimento de Lideranças</strong></p>
+                        <p>• Treinamento em gestão de equipes</p>
+                        <p>• Feedback contínuo e estruturado</p>
+                        <p>• Planos de sucessão documentados</p>
+                    </div>
+                    <div>
+                        <p><strong>3.3 Comunicação e Integração</strong></p>
+                        <p>• Reuniões mensais entre coordenadorias</p>
+                        <p>• Sistema de comunicação oficial unificado</p>
+                        <p>• Solução para divisão geográfica (CPJRE)</p>
+                        
+                        <p><strong>Meta:</strong> Reduzir afastamentos por saúde em 25%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recomendacao">
+                <div class="gargalo-title">📊 Eixo 4: Remanejamento Estratégico (6+ meses)</div>
+                <div class="two-column">
+                    <div>
+                        <p><strong>4.1 Identificação de Oportunidades</strong></p>
+                        <p>• Análise de subunidades com excesso de pessoal</p>
+                        <p>• Mapeamento de déficits críticos</p>
+                        <p>• Avaliação de perfis e competências</p>
+                        
+                        <p><strong>4.2 Planejamento de Movimentações</strong></p>
+                        <p>• Priorização por impacto operacional</p>
+                        <p>• Cronograma de transições graduais</p>
+                        <p>• Capacitação prévia dos servidores</p>
+                    </div>
+                    <div>
+                        <p><strong>4.3 Implementação Faseada</strong></p>
+                        <p>• Fase 1: Movimentações críticas (déficits)</p>
+                        <p>• Fase 2: Otimizações secundárias</p>
+                        <p>• Acompanhamento de adaptação</p>
+                        
+                        <p><strong>Meta:</strong> Redistribuir até 4-6 servidores entre coordenadorias</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">🎯 Lógica dos Indicadores de Sucesso</div>
+                <div class="two-column">
+                    <div>
+                        <p><strong>Indicadores Quantitativos - Base Metodológica:</strong></p>
+                        <p>• <strong>30% redução demandas urgentes:</strong> Meta baseada na implementação do sistema de classificação e padronização de fluxos</p>
+                        <p>• <strong>100% utilização Teams:</strong> Eliminação completa do WhatsApp como ferramenta de trabalho oficial</p>
+                        <p>• <strong>25% redução afastamentos:</strong> Resultado esperado das campanhas de autocuidado e melhoria do ambiente</p>
+                    </div>
+                    <div>
+                        <p><strong>Indicadores Qualitativos - Impacto Organizacional:</strong></p>
+                        <p>• <strong>90% satisfação processos:</strong> Medida através de pesquisa de clima pós-implementação</p>
+                        <p>• <strong>Melhoria clima organizacional:</strong> Redução dos gargalos identificados no mapa</p>
+                        <p>• <strong>Aumento produtividade:</strong> Liberação de tempo através da otimização de processos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Responsáveis por Implementação -->
+        <div class="slide">
+            <h2 class="slide-title">👥 Responsáveis por Implementação</h2>
+            
+            <div class="two-column">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th colspan="2" style="background: #3498db;">COORDENADORIAS</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Padronização de fluxos</strong></td><td>Gestores locais + Servidores experientes</td></tr>
+                            <tr><td><strong>Protocolos de urgência</strong></td><td>Chefes de Cartório + SEMA</td></tr>
+                            <tr><td><strong>Sistema de backup</strong></td><td>Coordenadores + Chefes de unidade</td></tr>
+                            <tr><td><strong>Capacitação local</strong></td><td>Servidores multiplicadores</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th colspan="2" style="background: #e74c3c;">API (Assessoria de Políticas Institucionais)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Redistribuição de pessoal</strong></td><td>Planejamento estratégico de movimentações</td></tr>
+                            <tr><td><strong>Integração geográfica</strong></td><td>Unificação física CPJRE</td></tr>
+                            <tr><td><strong>Infraestrutura física</strong></td><td>Melhorias estruturais e adequações</td></tr>
+                            <tr><td><strong>Políticas institucionais</strong></td><td>Normatização de novos processos</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th colspan="2" style="background: #27ae60;">STI (Superintendência de Tecnologia)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Modernização de sistemas</strong></td><td>Atualização NeoGab, SEMA e outros</td></tr>
+                            <tr><td><strong>Suporte técnico</strong></td><td>Manutenção e resolução de problemas</td></tr>
+                            <tr><td><strong>Ferramentas de comunicação</strong></td><td>Implementação e suporte Teams</td></tr>
+                            <tr><td><strong>Automação</strong></td><td>Desenvolvimento de soluções automatizadas</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th colspan="2" style="background: #f39c12;">SECOR (Secretaria de Educação Corporativa)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Capacitação</strong></td><td>Treinamentos técnicos e comportamentais</td></tr>
+                            <tr><td><strong>Desenvolvimento de lideranças</strong></td><td>Formação de gestores e multiplicadores</td></tr>
+                            <tr><td><strong>Avaliação de resultados</strong></td><td>Monitoramento de indicadores</td></tr>
+                            <tr><td><strong>Gestão da mudança</strong></td><td>Acompanhamento da transformação cultural</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">🔄 Modelo de Governança</div>
+                <div class="two-column">
+                    <div>
+                        <p><strong>Comitê de Transformação:</strong></p>
+                        <p>• <strong>Coordenação:</strong> API (líder do projeto)</p>
+                        <p>• <strong>Membros:</strong> Representantes de STI, SECOR e Coordenadorias</p>
+                        <p>• <strong>Frequência:</strong> Reuniões quinzenais</p>
+                        <p>• <strong>Poder:</strong> Decisório para ajustes no plano</p>
+                    </div>
+                    <div>
+                        <p><strong>Grupos de Trabalho Temáticos:</strong></p>
+                        <p>• <strong>GT Processos:</strong> Coordenadorias + API</p>
+                        <p>• <strong>GT Tecnologia:</strong> STI + Coordenadorias</p>
+                        <p>• <strong>GT Pessoas:</strong> SECOR + Coordenadorias</p>
+                        <p>• <strong>Relatórios:</strong> Mensais ao Comitê</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Análise de Sobrecarga -->
+        <div class="slide">
+            <h2 class="slide-title">🎯 Plano de Ação Estratégico</h2>
+            
+            <div class="three-column">
+                <div class="eixo-card" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                    <div class="eixo-title">🚨 Nível 1: Imediato (0-3 meses)</div>
+                    <div style="margin: 15px 0;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 8px; border-radius: 5px; margin: 5px 0;">
+                            <strong>Prioridade:</strong> <span style="background: #c0392b; padding: 2px 8px; border-radius: 10px; font-size: 0.8em;">ALTA</span>
+                        </div>
+                    </div>
+                    
+                    <p><strong>• Padronização de fluxos e documentos</strong></p>
+                    <p><strong>• Limites para trabalho</strong> fora do expediente</p>
+                    <p><strong>• Sistema de classificação</strong> de urgências</p>
+                    <p><strong>• Campanhas de autocuidado</strong></p>
+                    <p><strong>• Protocolos de substituição</strong></p>
+                </div>
+                
+                <div class="eixo-card" style="background: linear-gradient(135deg, #f39c12, #d68910);">
+                    <div class="eixo-title">⚙️ Nível 2: Estrutural (3-12 meses)</div>
+                    <div style="margin: 15px 0;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 8px; border-radius: 5px; margin: 5px 0;">
+                            <strong>Prioridade:</strong> <span style="background: #d68910; padding: 2px 8px; border-radius: 10px; font-size: 0.8em;">MÉDIA-ALTA</span>
+                        </div>
+                    </div>
+                    
+                    <p><strong>• Redistribuição de servidores</strong></p>
+                    <p><strong>• Modernização</strong> de equipamentos</p>
+                    <p><strong>• Integração geográfica</strong> CPJRE</p>
+                    <p><strong>• Melhoria da infraestrutura</strong> física</p>
+                </div>
+                
+                <div class="eixo-card" style="background: linear-gradient(135deg, #27ae60, #229954);">
+                    <div class="eixo-title">👥 Nível 3: Cultural (6-24 meses)</div>
+                    <div style="margin: 15px 0;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 8px; border-radius: 5px; margin: 5px 0;">
+                            <strong>Prioridade:</strong> <span style="background: #229954; padding: 2px 8px; border-radius: 10px; font-size: 0.8em;">MÉDIA</span>
+                        </div>
+                    </div>
+                    
+                    <p><strong>• Programa de lideranças</strong></p>
+                    <p><strong>• Sistema de feedback</strong> contínuo</p>
+                    <p><strong>• Política de bem-estar</strong></p>
+                    <p><strong>• Capacitação continuada</strong></p>
+                </div>
+            </div>
+
+            <div class="chart-container chart-small">
+                <canvas id="cronogramaImplementacao"></canvas>
+            </div>
+        </div>
+
+        <!-- Slide 5: Análise de Riscos -->
+        <div class="slide">
+            <h2 class="slide-title">⚠️ Análise de Riscos e Planos de Contingência</h2>
+            
+            <div class="alert-box">
+                <div class="alert-title">📊 Metodologia de Cálculo das Probabilidades</div>
+                <p><strong>Base de Cálculo:</strong> Análise histórica do MPDFT + Experiência em projetos similares + Fatores ambientais identificados</p>
+                <p><strong>Escala:</strong> Baixa (0-30%) | Média (31-60%) | Alta (61-100%)</p>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #e74c3c;">🚨 Riscos Críticos Identificados</h3>
+                    
+                    <div class="gargalo-item">
+                        <div class="gargalo-title">Alto Risco: Resistência à Mudança (70%)</div>
+                        <p><strong>Cálculo da Probabilidade:</strong></p>
+                        <p>• 45% dos servidores relatam baixa utilização de ferramentas oficiais</p>
+                        <p>• Histórico de resistência à implementação do Teams</p>
+                        <p>• Cultura consolidada de uso do WhatsApp</p>
+                        <p><strong>Impacto:</strong> Crítico - pode inviabilizar transformação digital</p>
+                        <p><strong>Contingência:</strong> Programa intensivo de change management</p>
+                    </div>
+                    
+                    <div class="gargalo-item">
+                        <div class="gargalo-title">Médio Risco: Aposentadorias Imprevistas (40%)</div>
+                        <p><strong>Cálculo da Probabilidade:</strong></p>
+                        <p>• Servidor previsto para aposentar em julho/2025 (CPJSA)</p>
+                        <p>• 3 aposentadorias previstas no SETDIL (CPJSA)</p>
+                        <p>• Idade média elevada em funções críticas</p>
+                        <p><strong>Impacto:</strong> Alto - perda de conhecimento tácito</p>
+                        <p><strong>Contingência:</strong> Documentação urgente + planos de sucessão</p>
+                    </div>
+                    
+                    <div class="gargalo-item">
+                        <div class="gargalo-title">Médio Risco: Orçamento Insuficiente (50%)</div>
+                        <p><strong>Cálculo da Probabilidade:</strong></p>
+                        <p>• Restrições orçamentárias 2025 já sinalizadas</p>
+                        <p>• Equipamentos obsoletos identificados (CPJPA)</p>
+                        <p>• Necessidade de reformas estruturais</p>
+                        <p><strong>Impacto:</strong> Médio - atraso na modernização</p>
+                        <p><strong>Contingência:</strong> Implementação incremental por fases</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #27ae60;">🛡️ Estratégias de Mitigação Detalhadas</h3>
+                    
+                    <div class="recomendacao">
+                        <div class="gargalo-title">2. Preservação de Conhecimento (Risco 40%)</div>
+                        <p><strong>Ações Imediatas:</strong></p>
+                        <p>• Mapeamento urgente de processos críticos dependentes de pessoas específicas</p>
+                        <p>• Gravação de vídeos explicativos com servidores experientes</p>
+                        <p>• Documentação de procedimentos não formalizados</p>
+                        
+                        <p><strong>Programa de Mentoria:</strong></p>
+                        <p>• Pareamento de veteranos com servidores mais jovens</p>
+                        <p>• Rotação de responsabilidades antes da aposentadoria</p>
+                        <p>• Base de conhecimento digital centralizada</p>
+                    </div>
+                    
+                    <div class="recomendacao">
+                        <div class="gargalo-title">3. Otimização Orçamentária (Risco 50%)</div>
+                        <p><strong>Demonstração de ROI:</strong></p>
+                        <p>• Cálculo de horas economizadas com automação</p>
+                        <p>• Redução de custos com melhor alocação de pessoal</p>
+                        <p>• Prevenção de custos com afastamentos por saúde</p>
+                        
+                        <p><strong>Implementação Escalonada:</strong></p>
+                        <p>• Priorizar investimentos com maior impacto</p>
+                        <p>• Buscar parcerias com outras superintendências</p>
+                        <p>• Aproveitar recursos já disponíveis (ex: licenças Office 365)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">🎯 Plano de Monitoramento de Riscos - Explicação das Probabilidades</div>
+                <div class="two-column">
+                    <div>
+                        <p><strong>Resistência à Mudança (70%):</strong></p>
+                        <p>• <strong>Base:</strong> 45-50% ainda não usam Teams adequadamente</p>
+                        <p>• <strong>Histórico:</strong> Implementações anteriores tiveram resistência</p>
+                        <p>• <strong>Cultura:</strong> Preferência por ferramentas conhecidas (WhatsApp)</p>
+                    </div>
+                    <div>
+                        <p><strong>Aposentadorias (40%) e Orçamento (50%):</strong></p>
+                        <p>• <strong>Aposentadorias:</strong> Baseado em previsões oficiais + idade dos servidores</p>
+                        <p>• <strong>Orçamento:</strong> Histórico de cortes + necessidade alta de investimentos</p>
+                        <p>• <strong>Monitoramento:</strong> Mensal pelo Comitê de Transformação</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Conclusões e Recomendações Finais -->
+        <div class="slide">
+            <h2 class="slide-title">📈 Conclusões e Recomendações Finais</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">🎯 Principais Conclusões</h3>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h4 style="color: #e74c3c; margin-bottom: 10px;">🔍 Paradoxo Confirmado</h4>
+                        <p>O <strong>superávit numérico de 11 servidores</strong> coexiste com <strong>alta percepção de sobrecarga</strong> em todas as coordenadorias. Isso comprova que o problema não é quantidade de pessoas, mas <strong>eficiência dos processos</strong>.</p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h4 style="color: #f39c12; margin-bottom: 10px;">⚖️ Causa Raiz Identificada</h4>
+                        <p>Os gargalos estruturais nos <strong>4 eixos se retroalimentam</strong>: processos ineficientes geram sobrecarga, que gera resistência a mudanças, que perpetua o uso de ferramentas inadequadas, mantendo a ineficiência.</p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+                        <h4 style="color: #27ae60; margin-bottom: 10px;">💡 Oportunidade Única</h4>
+                        <p>A situação atual oferece uma <strong>janela de oportunidade</strong> para implementar melhorias profundas sem comprometer o atendimento, já que há capacidade instalada disponível.</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">🚀 Recomendações Estratégicas</h3>
+                    
+                    <div class="recomendacao" style="margin-bottom: 15px;">
+                        <div class="gargalo-title">1. Aprovação Imediata do Plano 3 Níveis</div>
+                        <p>Implementar estratégia integrada: Imediato → Estrutural → Cultural</p>
+                    </div>
+                    
+                    <div class="recomendacao" style="margin-bottom: 15px;">
+                        <div class="gargalo-title">2. Criação do Comitê de Transformação</div>
+                        <p>API + SECOR + STI + Coordenadores com reuniões quinzenais e poder decisório</p>
+                    </div>
+                    
+                    <div class="recomendacao" style="margin-bottom: 15px;">
+                        <div class="gargalo-title">3. Pilot Program em CPJPA</div>
+                        <p>Testar soluções na coordenadoria menor antes de expandir</p>
+                    </div>
+                    
+                    <div class="recomendacao">
+                        <div class="gargalo-title">4. Orçamento Estratégico 2026</div>
+                        <p>Incluir recursos para modernização tecnológica no próximo orçamento</p>
+                    </div>
+
+                    <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center;">
+                        <h4 style="color: #27ae60; margin-bottom: 10px;">🎯 Meta Integrada</h4>
+                        <p style="font-size: 1.2em; font-weight: bold;">Transformar o MPDFT em referência nacional de eficiência na gestão de pessoas e processos até 2026</p>
+                        <p style="margin-top: 10px;">Reduzir sobrecarga em 40% | Aumentar produtividade em 25% | Melhorar clima organizacional em 50%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">⏰ Decisão Urgente Necessária</div>
+                <p>O <strong>momento é crítico</strong>. As aposentadorias previstas e o acúmulo de gargalos podem levar à desestruturação das coordenadorias se não houver ação imediata. <strong>Recomenda-se aprovação do plano em até 30 dias</strong> para início da implementação ainda em 2025.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuração global dos gráficos
+        Chart.defaults.font.family = 'Segoe UI';
+        Chart.defaults.plugins.legend.position = 'bottom';
+
+        // Gráfico 1: Análise por Coordenadorias
+        const ctx1 = document.getElementById('analiseCoordinadorias').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['CPJSA\nSamambaia', 'CPJPA\nParanoá', 'CPJRE\nRecanto'],
+                datasets: [{
+                    label: 'Lotação Atual',
+                    data: [27, 12, 14],
+                    backgroundColor: 'rgba(52, 152, 219, 0.8)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    borderWidth: 2
+                }, {
+                    label: 'DFT Calculado',
+                    data: [22, 11, 9],
+                    backgroundColor: 'rgba(231, 76, 60, 0.8)',
+                    borderColor: 'rgba(231, 76, 60, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Lotação vs DFT Calculado',
+                        font: { size: 16, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Servidores'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico 2: Distribuição por Subunidades
+        const ctx2 = document.getElementById('distribuicaoSubunidades').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Cartório\nSamambaia', 'SEMA\nSamambaia', 'SETDIL\nSamambaia', 'SAD\nSamambaia', 'SECAD\nSamambaia',
+                    'Cartório\nParanoá', 'SEMA\nParanoá', 'SETDIL\nParanoá', 'ANPP\nParanoá', 'SECAD\nParanoá', 'SAD\nParanoá',
+                    'Cartório\nRecanto', 'SEMA\nRecanto', 'SETDIL\nRecanto', 'SAD\nRecanto'
+                ],
+                datasets: [{
+                    label: 'Lotação Atual',
+                    data: [12, 5, 6, 2, 2, 4, 2, 3, 1, 1, 1, 5, 3, 5, 1],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.8)', 'rgba(52, 152, 219, 0.8)', 'rgba(52, 152, 219, 0.8)', 'rgba(52, 152, 219, 0.8)', 'rgba(52, 152, 219, 0.8)',
+                        'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)',
+                        'rgba(46, 204, 113, 0.8)', 'rgba(46, 204, 113, 0.8)', 'rgba(46, 204, 113, 0.8)', 'rgba(46, 204, 113, 0.8)'
+                    ],
+                    borderWidth: 1
+                }, {
+                    label: 'DFT Calculado',
+                    data: [9, 5, 6, 1, 1, 3, 3, 4, 1, 0.14, 0.14, 3, 2, 4, 0.2],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.4)', 'rgba(52, 152, 219, 0.4)', 'rgba(52, 152, 219, 0.4)', 'rgba(52, 152, 219, 0.4)', 'rgba(52, 152, 219, 0.4)',
+                        'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)',
+                        'rgba(46, 204, 113, 0.4)', 'rgba(46, 204, 113, 0.4)', 'rgba(46, 204, 113, 0.4)', 'rgba(46, 204, 113, 0.4)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Análise Detalhada por Subunidade e Coordenadoria',
+                        font: { size: 14, weight: 'bold' }
+                    },
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45,
+                            font: { size: 10 }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Número de Servidores'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico 3: Sobrecarga Percebida
+        const ctx3 = document.getElementById('sobrecargaPercebida').getContext('2d');
+        new Chart(ctx3, {
+            type: 'radar',
+            data: {
+                labels: ['Demandas Urgentes', 'Trabalho Fora Expediente', 'Receio Afastamentos', 'Interrupções', 'Sistemas Lentos', 'Ferramentas TI'],
+                datasets: [{
+                    label: 'CPJSA - Samambaia',
+                    data: [73, 68, 77, 55, 41, 45],
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    pointBackgroundColor: 'rgba(52, 152, 219, 1)'
+                }, {
+                    label: 'CPJPA - Paranoá',
+                    data: [36, 45, 45, 45, 0, 36],
+                    borderColor: 'rgba(231, 76, 60, 1)',
+                    backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                    pointBackgroundColor: 'rgba(231, 76, 60, 1)'
+                }, {
+                    label: 'CPJRE - Recanto',
+                    data: [85, 50, 64, 50, 64, 50],
+                    borderColor: 'rgba(46, 204, 113, 1)',
+                    backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                    pointBackgroundColor: 'rgba(46, 204, 113, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Índices de Sobrecarga Percebida (%)',
+                        font: { size: 16, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            stepSize: 20
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico 4: Comparativo por Eixos
+        const ctx4 = document.getElementById('comparativoEixos').getContext('2d');
+        new Chart(ctx4, {
+            type: 'doughnut',
+            data: {
+                labels: ['Processos e Organização', 'Qualidade de Vida', 'Gestão', 'Tecnologia da Informação'],
+                datasets: [{
+                    data: [64, 62, 50, 47],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(231, 76, 60, 0.8)',
+                        'rgba(46, 204, 113, 0.8)',
+                        'rgba(243, 156, 18, 0.8)'
+                    ],
+                    borderWidth: 2,
+                    borderColor: 'white'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Média de Sobrecarga por Eixo (%)',
+                        font: { size: 14, weight: 'bold' }
+                    }
+                }
+            }
+        });
+
+        // Gráfico 5: Cronograma de Implementação
+        const ctx5 = document.getElementById('cronogramaImplementacao').getContext('2d');
+        new Chart(ctx5, {
+            type: 'line',
+            data: {
+                labels: ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 6', 'Mês 9', 'Mês 12'],
+                datasets: [{
+                    label: 'Redução Sobrecarga (%)',
+                    data: [0, 10, 20, 35, 50, 60],
+                    borderColor: 'rgba(46, 204, 113, 1)',
+                    backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Aumento Produtividade (%)',
+                    data: [0, 5, 15, 25, 40, 50],
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Satisfação Equipe (%)',
+                    data: [0, 15, 25, 40, 55, 70],
+                    borderColor: 'rgba(243, 156, 18, 1)',
+                    backgroundColor: 'rgba(243, 156, 18, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Evolução Esperada dos Indicadores',
+                        font: { size: 16, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 80,
+                        title: {
+                            display: true,
+                            text: 'Melhoria (%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Cronograma de Implementação'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
