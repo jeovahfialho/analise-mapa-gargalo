@@ -852,7 +852,7 @@
             </div>
 
             <div class="chart-container chart-small">
-                <canvas id="cronogramaImplementacao"></canvas>
+                <canvas id="cronogramaImplementacao2"></canvas>
             </div>
         </div>
 
@@ -1014,12 +1014,12 @@
     </div>
 
     <script>
-        // Configuração global dos gráficos
-        Chart.defaults.font.family = 'Segoe UI';
-        Chart.defaults.plugins.legend.position = 'bottom';
+document.addEventListener('DOMContentLoaded', function () {
+    Chart.defaults.font.family = 'Segoe UI';
+    Chart.defaults.plugins.legend.position = 'bottom';
 
-        // Gráfico 1: Análise por Coordenadorias
-        const ctx1 = document.getElementById('analiseCoordinadorias').getContext('2d');
+    const ctx1 = document.getElementById('analiseCoordinadorias')?.getContext('2d');
+    if (ctx1) {
         new Chart(ctx1, {
             type: 'bar',
             data: {
@@ -1027,15 +1027,11 @@
                 datasets: [{
                     label: 'Lotação Atual',
                     data: [27, 12, 14],
-                    backgroundColor: 'rgba(52, 152, 219, 0.8)',
-                    borderColor: 'rgba(52, 152, 219, 1)',
-                    borderWidth: 2
+                    backgroundColor: 'rgba(52, 152, 219, 0.8)'
                 }, {
                     label: 'DFT Calculado',
                     data: [22, 11, 9],
-                    backgroundColor: 'rgba(231, 76, 60, 0.8)',
-                    borderColor: 'rgba(231, 76, 60, 1)',
-                    borderWidth: 2
+                    backgroundColor: 'rgba(231, 76, 60, 0.8)'
                 }]
             },
             options: {
@@ -1059,9 +1055,10 @@
                 }
             }
         });
+    }
 
-        // Gráfico 2: Distribuição por Subunidades
-        const ctx2 = document.getElementById('distribuicaoSubunidades').getContext('2d');
+    const ctx2 = document.getElementById('distribuicaoSubunidades')?.getContext('2d');
+    if (ctx2) {
         new Chart(ctx2, {
             type: 'bar',
             data: {
@@ -1073,21 +1070,11 @@
                 datasets: [{
                     label: 'Lotação Atual',
                     data: [12, 5, 6, 2, 2, 4, 2, 3, 1, 1, 1, 5, 3, 5, 1],
-                    backgroundColor: [
-                        'rgba(52, 152, 219, 0.8)', 'rgba(52, 152, 219, 0.8)', 'rgba(52, 152, 219, 0.8)', 'rgba(52, 152, 219, 0.8)', 'rgba(52, 152, 219, 0.8)',
-                        'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)', 'rgba(231, 76, 60, 0.8)',
-                        'rgba(46, 204, 113, 0.8)', 'rgba(46, 204, 113, 0.8)', 'rgba(46, 204, 113, 0.8)', 'rgba(46, 204, 113, 0.8)'
-                    ],
-                    borderWidth: 1
+                    backgroundColor: 'rgba(52, 152, 219, 0.8)'
                 }, {
                     label: 'DFT Calculado',
                     data: [9, 5, 6, 1, 1, 3, 3, 4, 1, 0.14, 0.14, 3, 2, 4, 0.2],
-                    backgroundColor: [
-                        'rgba(52, 152, 219, 0.4)', 'rgba(52, 152, 219, 0.4)', 'rgba(52, 152, 219, 0.4)', 'rgba(52, 152, 219, 0.4)', 'rgba(52, 152, 219, 0.4)',
-                        'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)', 'rgba(231, 76, 60, 0.4)',
-                        'rgba(46, 204, 113, 0.4)', 'rgba(46, 204, 113, 0.4)', 'rgba(46, 204, 113, 0.4)', 'rgba(46, 204, 113, 0.4)'
-                    ],
-                    borderWidth: 1
+                    backgroundColor: 'rgba(231, 76, 60, 0.8)'
                 }]
             },
             options: {
@@ -1098,9 +1085,6 @@
                         display: true,
                         text: 'Análise Detalhada por Subunidade e Coordenadoria',
                         font: { size: 14, weight: 'bold' }
-                    },
-                    legend: {
-                        position: 'top'
                     }
                 },
                 scales: {
@@ -1121,9 +1105,10 @@
                 }
             }
         });
+    }
 
-        // Gráfico 3: Sobrecarga Percebida
-        const ctx3 = document.getElementById('sobrecargaPercebida').getContext('2d');
+    const ctx3 = document.getElementById('sobrecargaPercebida')?.getContext('2d');
+    if (ctx3) {
         new Chart(ctx3, {
             type: 'radar',
             data: {
@@ -1162,16 +1147,15 @@
                     r: {
                         beginAtZero: true,
                         max: 100,
-                        ticks: {
-                            stepSize: 20
-                        }
+                        ticks: { stepSize: 20 }
                     }
                 }
             }
         });
+    }
 
-        // Gráfico 4: Comparativo por Eixos
-        const ctx4 = document.getElementById('comparativoEixos').getContext('2d');
+    const ctx4 = document.getElementById('comparativoEixos')?.getContext('2d');
+    if (ctx4) {
         new Chart(ctx4, {
             type: 'doughnut',
             data: {
@@ -1184,8 +1168,8 @@
                         'rgba(46, 204, 113, 0.8)',
                         'rgba(243, 156, 18, 0.8)'
                     ],
-                    borderWidth: 2,
-                    borderColor: 'white'
+                    borderColor: 'white',
+                    borderWidth: 2
                 }]
             },
             options: {
@@ -1200,9 +1184,10 @@
                 }
             }
         });
+    }
 
-        // Gráfico 5: Cronograma de Implementação
-        const ctx5 = document.getElementById('cronogramaImplementacao').getContext('2d');
+    const ctx5 = document.getElementById('cronogramaImplementacao')?.getContext('2d');
+    if (ctx5) {
         new Chart(ctx5, {
             type: 'line',
             data: {
@@ -1258,6 +1243,45 @@
                 }
             }
         });
-    </script>
+    }
+
+    // Segundo cronograma, se necessário
+    const ctx6 = document.getElementById('cronogramaImplementacao2')?.getContext('2d');
+    if (ctx6) {
+        new Chart(ctx6, {
+            // Pode ser igual ao ctx5 ou personalizado
+            type: 'line',
+            data: {
+                labels: ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 6', 'Mês 9', 'Mês 12'],
+                datasets: [{
+                    label: 'Redução Sobrecarga (%)',
+                    data: [0, 10, 20, 35, 50, 60],
+                    borderColor: 'rgba(155, 89, 182, 1)',
+                    backgroundColor: 'rgba(155, 89, 182, 0.2)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Gráfico Extra Cronograma 2',
+                        font: { size: 14, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+
 </body>
 </html>
