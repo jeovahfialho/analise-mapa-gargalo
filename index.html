@@ -303,6 +303,225 @@
             <p style="margin-top: 10px; font-size: 1em; color: #95a5a6;">Ministério Público do Distrito Federal e Territórios</p>
         </div>
 
+        
+        <!-- Slide 1: Visão Geral Consolidada -->
+        <div class="slide">
+            <h2 class="slide-title">📊 Panorama Geral das Coordenadorias</h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">53</div>
+                    <div class="metric-label">Total de Servidores<br>Lotados</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">42</div>
+                    <div class="metric-label">DFT Calculado<br>(Pessoas Estimadas)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">+11</div>
+                    <div class="metric-label">Diferença<br>(Superávit Aparente)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">79%</div>
+                    <div class="metric-label">Taxa de<br>Utilização Teórica</div>
+                </div>
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">📈 Comparativo por Coordenadoria</h3>
+                    <div class="chart-container chart-small">
+                        <canvas id="analiseCoordinadorias"></canvas>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Coordenadoria</th>
+                                <th>Lotação</th>
+                                <th>DFT</th>
+                                <th>Diferença</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>CPJSA - Samambaia</strong></td>
+                                <td>27</td>
+                                <td>22</td>
+                                <td>+5</td>
+                                <td><span class="status-excesso">Excesso</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CPJPA - Paranoá</strong></td>
+                                <td>12</td>
+                                <td>11</td>
+                                <td>+1</td>
+                                <td><span class="status-equilibrio">Equilibrio</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>CPJRE - Recanto</strong></td>
+                                <td>14</td>
+                                <td>9</td>
+                                <td>+5</td>
+                                <td><span class="status-excesso">Excesso</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">⚠️ Paradoxo Fundamental Identificado</div>
+                <p>Apesar do superávit aparente de 11 servidores, <strong>todas as coordenadorias reportam alta percepção de sobrecarga</strong>. Isso indica problemas estruturais nos processos de trabalho que mascaram a real necessidade de pessoal.</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Análise Detalhada por Subunidade -->
+        <div class="slide">
+            <h2 class="slide-title">🔍 Análise Detalhada por Subunidades</h2>
+            
+            <div class="chart-container chart-large">
+                <canvas id="distribuicaoSubunidades"></canvas>
+            </div>
+            
+            <div class="three-column">
+                <div>
+                    <h4 style="color: #3498db; margin-bottom: 10px;">🔵 CPJSA - Samambaia</h4>
+                    <div class="table-container">
+                        <table style="font-size: 0.8em;">
+                            <thead>
+                                <tr><th>Subunidade</th><th>Lotação</th><th>DFT</th><th>Status</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Cartório</td><td>12</td><td>9</td><td><span class="status-excesso">+3</span></td></tr>
+                                <tr><td>SEMA</td><td>5</td><td>5</td><td><span class="status-equilibrio">0</span></td></tr>
+                                <tr><td>SETDIL</td><td>6</td><td>6</td><td><span class="status-equilibrio">0</span></td></tr>
+                                <tr><td>SAD</td><td>2</td><td>1</td><td><span class="status-excesso">+1</span></td></tr>
+                                <tr><td>SECAD</td><td>2</td><td>1</td><td><span class="status-excesso">+1</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="color: #e74c3c; margin-bottom: 10px;">🔴 CPJPA - Paranoá</h4>
+                    <div class="table-container">
+                        <table style="font-size: 0.8em;">
+                            <thead>
+                                <tr><th>Subunidade</th><th>Lotação</th><th>DFT</th><th>Status</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Cartório</td><td>4</td><td>3</td><td><span class="status-excesso">+1</span></td></tr>
+                                <tr><td>SEMA</td><td>2</td><td>3</td><td><span class="status-deficit">-1</span></td></tr>
+                                <tr><td>SETDIL</td><td>3</td><td>4</td><td><span class="status-deficit">-1</span></td></tr>
+                                <tr><td>ANPP</td><td>1</td><td>1</td><td><span class="status-equilibrio">0</span></td></tr>
+                                <tr><td>SECAD</td><td>1</td><td>0.1</td><td><span class="status-excesso">+1</span></td></tr>
+                                <tr><td>SAD</td><td>1</td><td>0.1</td><td><span class="status-excesso">+1</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 style="color: #27ae60; margin-bottom: 10px;">🟢 CPJRE - Recanto</h4>
+                    <div class="table-container">
+                        <table style="font-size: 0.8em;">
+                            <thead>
+                                <tr><th>Subunidade</th><th>Lotação</th><th>DFT</th><th>Status</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Cartório</td><td>5</td><td>3</td><td><span class="status-excesso">+2</span></td></tr>
+                                <tr><td>SEMA</td><td>3</td><td>2</td><td><span class="status-excesso">+1</span></td></tr>
+                                <tr><td>SETDIL</td><td>5</td><td>4</td><td><span class="status-excesso">+1</span></td></tr>
+                                <tr><td>SAD</td><td>1</td><td>0.2</td><td><span class="status-excesso">+1</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <div class="alert-title">🎯 Principais Achados</div>
+                <div class="two-column">
+                    <div>
+                        <p><strong>⚠️ Déficits Críticos:</strong></p>
+                        <p>• SEMA (Paranoá): -1 servidor</p>
+                        <p>• SETDIL (Paranoá): -1 servidor</p>
+                    </div>
+                    <div>
+                        <p><strong>✅ Excedentes Disponíveis:</strong></p>
+                        <p>• Cartório (Samambaia): +3 servidores</p>
+                        <p>• SAD/SECAD (todas): +6 servidores</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Metodologia e Explicação dos Dados -->
+        <div class="slide">
+            <h2 class="slide-title">🔬 Metodologia e Origem dos Dados</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">📋 Como foi Calculado o DFT</h3>
+                    
+                    <div class="metodologia-box">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">1. Coleta de Dados Quantitativos</h4>
+                        <p>• <strong>Entregas principais:</strong> Volume de atividades por subunidade</p>
+                        <p>• <strong>Tempo médio:</strong> Duração para executar cada atividade</p>
+                        <p>• <strong>Jornada efetiva:</strong> Horas reais disponíveis descontando férias, licenças, capacitação</p>
+                    </div>
+
+                    <div class="metodologia-box">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">2. Aplicação da Fórmula DFT</h4>
+                        <p><strong>DFT = (Volume × Tempo Médio) ÷ Jornada Efetiva</strong></p>
+                        <p>Baseada na metodologia de Rogério Leme (PGR)</p>
+                    </div>
+
+                    <div class="metodologia-box">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">3. Validação por Faixa de Análise</h4>
+                        <p>• Critérios metodológicos e estudos estatísticos</p>
+                        <p>• Comportamento esperado vs realidade</p>
+                        <p>• Aprovação automática dentro da faixa</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">🎯 Como foi Medida a Sobrecarga</h3>
+                    
+                    <div class="metodologia-box">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">Questionário de Percepção (20 critérios)</h4>
+                        <p><strong>4 Eixos de Análise:</strong></p>
+                        <p>• <strong>Processos e Organização (5 critérios)</strong></p>
+                        <p>• <strong>Qualidade de Vida (6 critérios)</strong></p>
+                        <p>• <strong>Gestão (5 critérios)</strong></p>
+                        <p>• <strong>Tecnologia da Informação (4 critérios)</strong></p>
+                    </div>
+
+                    <div class="metodologia-box">
+                        <h4 style="color: #2c3e50; margin-bottom: 10px;">Exemplo: Por que Cartório e SEMA (Paranoá) têm Alta Percepção?</h4>
+                        <p><strong>Cartório:</strong></p>
+                        <p>• 71% recebem demandas fora do expediente</p>
+                        <p>• 57% relatam baixa utilização de ferramentas oficiais</p>
+                        <p>• 43% fazem tarefas fora da atribuição</p>
+                        
+                        <p style="margin-top: 10px;"><strong>SEMA:</strong></p>
+                        <p>• 100% relatam pressão e ansiedade</p>
+                        <p>• 100% estrutura física inadequada</p>
+                        <p>• 100% demandas urgentes frequentes</p>
+                    </div>
+
+                    <div class="alert-box">
+                        <div class="alert-title">💡 Interpretação</div>
+                        <p>Percentuais acima de 50% em qualquer critério indicam <strong>gargalo significativo</strong> que impacta a percepção de sobrecarga, independente do número de servidores.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Slide 4: Pontos Fortes e Desafios por Coordenadoria -->
         <div class="slide">
             <h2 class="slide-title">⚖️ Pontos Fortes e Desafios por Coordenadoria</h2>
