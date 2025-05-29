@@ -304,220 +304,35 @@
         </div>
 
         
-        <!-- Slide 1: Visão Geral Consolidada -->
-        <div class="slide">
-            <h2 class="slide-title">📊 Panorama Geral das Coordenadorias</h2>
-            
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-value">53</div>
-                    <div class="metric-label">Total de Servidores<br>Lotados</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value">42</div>
-                    <div class="metric-label">DFT Calculado<br>(Pessoas Estimadas)</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value">+11</div>
-                    <div class="metric-label">Diferença<br>(Superávit Aparente)</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value">79%</div>
-                    <div class="metric-label">Taxa de<br>Utilização Teórica</div>
-                </div>
-            </div>
-
-            <div class="two-column">
-                <div>
-                    <h3 style="margin-bottom: 15px; color: #2c3e50;">📈 Comparativo por Coordenadoria</h3>
-                    <div class="chart-container chart-small">
-                        <canvas id="analiseCoordinadorias"></canvas>
-                    </div>
-                </div>
-                
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Coordenadoria</th>
-                                <th>Lotação</th>
-                                <th>DFT</th>
-                                <th>Diferença</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>CPJSA - Samambaia</strong></td>
-                                <td>27</td>
-                                <td>22</td>
-                                <td>+5</td>
-                                <td><span class="status-excesso">Excesso</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>CPJPA - Paranoá</strong></td>
-                                <td>12</td>
-                                <td>11</td>
-                                <td>+1</td>
-                                <td><span class="status-equilibrio">Equilibrio</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>CPJRE - Recanto</strong></td>
-                                <td>14</td>
-                                <td>9</td>
-                                <td>+5</td>
-                                <td><span class="status-excesso">Excesso</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="alert-box">
-                <div class="alert-title">⚠️ Paradoxo Fundamental Identificado</div>
-                <p>Apesar do superávit aparente de 11 servidores, <strong>todas as coordenadorias reportam alta percepção de sobrecarga</strong>. Isso indica problemas estruturais nos processos de trabalho que mascaram a real necessidade de pessoal.</p>
-            </div>
-        </div>
-
-        <!-- Slide 2: Análise Detalhada por Subunidade -->
-        <div class="slide">
-            <h2 class="slide-title">🔍 Análise Detalhada por Subunidades</h2>
-            
-            <div class="chart-container chart-large">
-                <canvas id="distribuicaoSubunidades"></canvas>
-            </div>
-            
-            <div class="three-column">
-                <div>
-                    <h4 style="color: #3498db; margin-bottom: 10px;">🔵 CPJSA - Samambaia</h4>
-                    <div class="table-container">
-                        <table style="font-size: 0.8em;">
-                            <thead>
-                                <tr><th>Subunidade</th><th>Lotação</th><th>DFT</th><th>Status</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Cartório</td><td>12</td><td>9</td><td><span class="status-excesso">+3</span></td></tr>
-                                <tr><td>SEMA</td><td>5</td><td>5</td><td><span class="status-equilibrio">0</span></td></tr>
-                                <tr><td>SETDIL</td><td>6</td><td>6</td><td><span class="status-equilibrio">0</span></td></tr>
-                                <tr><td>SAD</td><td>2</td><td>1</td><td><span class="status-excesso">+1</span></td></tr>
-                                <tr><td>SECAD</td><td>2</td><td>1</td><td><span class="status-excesso">+1</span></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 style="color: #e74c3c; margin-bottom: 10px;">🔴 CPJPA - Paranoá</h4>
-                    <div class="table-container">
-                        <table style="font-size: 0.8em;">
-                            <thead>
-                                <tr><th>Subunidade</th><th>Lotação</th><th>DFT</th><th>Status</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Cartório</td><td>4</td><td>3</td><td><span class="status-excesso">+1</span></td></tr>
-                                <tr><td>SEMA</td><td>2</td><td>3</td><td><span class="status-deficit">-1</span></td></tr>
-                                <tr><td>SETDIL</td><td>3</td><td>4</td><td><span class="status-deficit">-1</span></td></tr>
-                                <tr><td>ANPP</td><td>1</td><td>1</td><td><span class="status-equilibrio">0</span></td></tr>
-                                <tr><td>SECAD</td><td>1</td><td>0.1</td><td><span class="status-excesso">+1</span></td></tr>
-                                <tr><td>SAD</td><td>1</td><td>0.1</td><td><span class="status-excesso">+1</span></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div>
-                    <h4 style="color: #27ae60; margin-bottom: 10px;">🟢 CPJRE - Recanto</h4>
-                    <div class="table-container">
-                        <table style="font-size: 0.8em;">
-                            <thead>
-                                <tr><th>Subunidade</th><th>Lotação</th><th>DFT</th><th>Status</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Cartório</td><td>5</td><td>3</td><td><span class="status-excesso">+2</span></td></tr>
-                                <tr><td>SEMA</td><td>3</td><td>2</td><td><span class="status-excesso">+1</span></td></tr>
-                                <tr><td>SETDIL</td><td>5</td><td>4</td><td><span class="status-excesso">+1</span></td></tr>
-                                <tr><td>SAD</td><td>1</td><td>0.2</td><td><span class="status-excesso">+1</span></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alert-box">
-                <div class="alert-title">🎯 Principais Achados</div>
-                <div class="two-column">
-                    <div>
-                        <p><strong>⚠️ Déficits Críticos:</strong></p>
-                        <p>• SEMA (Paranoá): -1 servidor</p>
-                        <p>• SETDIL (Paranoá): -1 servidor</p>
-                    </div>
-                    <div>
-                        <p><strong>✅ Excedentes Disponíveis:</strong></p>
-                        <p>• Cartório (Samambaia): +3 servidores</p>
-                        <p>• SAD/SECAD (todas): +6 servidores</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 3: Metodologia e Explicação dos Dados -->
+        <!-- Slide 1: Metodologia e Explicação dos Dados -->
         <div class="slide">
             <h2 class="slide-title">🔬 Metodologia e Origem dos Dados</h2>
             
-            <div class="two-column">
-                <div>
-                    <h3 style="margin-bottom: 15px; color: #2c3e50;">📋 Como foi Calculado o DFT</h3>
-                    
-                    <div class="metodologia-box">
-                        <h4 style="color: #2c3e50; margin-bottom: 10px;">1. Coleta de Dados Quantitativos</h4>
-                        <p>• <strong>Entregas principais:</strong> Volume de atividades por subunidade</p>
-                        <p>• <strong>Tempo médio:</strong> Duração para executar cada atividade</p>
-                        <p>• <strong>Jornada efetiva:</strong> Horas reais disponíveis descontando férias, licenças, capacitação</p>
-                    </div>
-
-                    <div class="metodologia-box">
-                        <h4 style="color: #2c3e50; margin-bottom: 10px;">2. Aplicação da Fórmula DFT</h4>
-                        <p><strong>DFT = (Volume × Tempo Médio) ÷ Jornada Efetiva</strong></p>
-                        <p>Baseada na metodologia de Rogério Leme (PGR)</p>
-                    </div>
-
-                    <div class="metodologia-box">
-                        <h4 style="color: #2c3e50; margin-bottom: 10px;">3. Validação por Faixa de Análise</h4>
-                        <p>• Critérios metodológicos e estudos estatísticos</p>
-                        <p>• Comportamento esperado vs realidade</p>
-                        <p>• Aprovação automática dentro da faixa</p>
-                    </div>
-                </div>
+            <div>
+                <h3 style="margin-bottom: 15px; color: #2c3e50;">🎯 Como foi Medida a Sobrecarga</h3>
                 
-                <div>
-                    <h3 style="margin-bottom: 15px; color: #2c3e50;">🎯 Como foi Medida a Sobrecarga</h3>
-                    
-                    <div class="metodologia-box">
-                        <h4 style="color: #2c3e50; margin-bottom: 10px;">Questionário de Percepção (20 critérios)</h4>
-                        <p><strong>4 Eixos de Análise:</strong></p>
-                        <p>• <strong>Processos e Organização (5 critérios)</strong></p>
-                        <p>• <strong>Qualidade de Vida (6 critérios)</strong></p>
-                        <p>• <strong>Gestão (5 critérios)</strong></p>
-                        <p>• <strong>Tecnologia da Informação (4 critérios)</strong></p>
-                    </div>
+                <div class="metodologia-box">
+                    <h4 style="color: #2c3e50; margin-bottom: 10px;">Questionário de Percepção de Sobrecarga de Trabalho (20 critérios)</h4>
+                    <p><strong>4 Eixos de Análise:</strong></p>
+                    <p>• <strong>Questionário de Percepção do Trabalho (5 critérios)</strong></p>
+                    <p>• <strong>Qualidade de Vida (6 critérios)</strong></p>
+                    <p>• <strong>Gestão (5 critérios)</strong></p>
+                    <p>• <strong>Tecnologia da Informação (4 critérios)</strong></p>
+                    <p style="margin-top: 15px;"><strong>Importante:</strong> O resultado foi baseado na quantidade de pessoas respondentes, não no número total de pessoas da unidade.</p>
+                </div>
 
-                    <div class="metodologia-box">
-                        <h4 style="color: #2c3e50; margin-bottom: 10px;">Exemplo: Por que Cartório e SEMA (Paranoá) têm Alta Percepção?</h4>
-                        <p><strong>Cartório:</strong></p>
-                        <p>• 71% recebem demandas fora do expediente</p>
-                        <p>• 57% relatam baixa utilização de ferramentas oficiais</p>
-                        <p>• 43% fazem tarefas fora da atribuição</p>
-                        
-                        <p style="margin-top: 10px;"><strong>SEMA:</strong></p>
-                        <p>• 100% relatam pressão e ansiedade</p>
-                        <p>• 100% estrutura física inadequada</p>
-                        <p>• 100% demandas urgentes frequentes</p>
-                    </div>
+                <div class="metodologia-box">
+                    <h4 style="color: #2c3e50; margin-bottom: 10px;">Como foi Estruturado o Mapa de Gargalo</h4>
+                    <p>O mapeamento dos gargalos foi construído através de uma abordagem integrada:</p>
+                    <p>• <strong>Reunião de Mapa de Gargalo:</strong> Discussões estruturadas com os gestores de cada coordenadoria</p>
+                    <p>• <strong>Respostas ao questionário:</strong> Dados quantitativos da percepção dos servidores nos 4 eixos</p>
+                    <p>• <strong>Sugestões dos gestores:</strong> Identificação de gargalos específicos pelos próprios líderes</p>
+                    <p>• <strong>Análise da equipe ADDIO:</strong> Consolidação técnica e validação dos dados coletados</p>
+                </div>
 
-                    <div class="alert-box">
-                        <div class="alert-title">💡 Interpretação</div>
-                        <p>Percentuais acima de 50% em qualquer critério indicam <strong>gargalo significativo</strong> que impacta a percepção de sobrecarga, independente do número de servidores.</p>
-                    </div>
+                <div class="alert-box">
+                    <div class="alert-title">💡 Interpretação</div>
+                    <p>Percentuais acima de 50% em qualquer critério indicam <strong>gargalo significativo</strong> que impacta a percepção de sobrecarga, independente do número de servidores.</p>
                 </div>
             </div>
         </div>
@@ -558,7 +373,6 @@
                     </div>
                     <div class="desafios">
                         <h4 style="color: #e74c3c; margin-bottom: 10px;">⚠️ Principais Desafios</h4>
-                        <p>• <strong>Déficit real:</strong> 2 servidores a menos que o necessário</p>
                         <p>• <strong>Equipamentos obsoletos:</strong> Limitam produtividade</p>
                         <p>• <strong>Baixa adesão a treinamentos:</strong> Por sobrecarga</p>
                         <p>• <strong>Substituição de membros:</strong> Processo estressante</p>
@@ -574,7 +388,7 @@
                         <p>• <strong>Sistema unificado:</strong> Cartório + SEMA integrados</p>
                         <p>• <strong>Equipe versátil:</strong> Todos treinados para múltiplas funções</p>
                         <p>• <strong>Gestão participativa:</strong> Espaço seguro para opiniões</p>
-                        <p>• <strong>Capacidade excedente:</strong> 5 servidores além do necessário</p>
+                        <p>• <strong>Capacidade instalada:</strong> 5 servidores excedentes identificados</p>
                     </div>
                     <div class="desafios">
                         <h4 style="color: #e74c3c; margin-bottom: 10px;">⚠️ Principais Desafios</h4>
@@ -762,7 +576,7 @@
                     <div class="recomendacao">
                         <div class="gargalo-title">1. Senso de Pertencimento e Coletividade</div>
                         <p><strong>CPJPA:</strong> "Todos cuidam de todos", forte senso de companheirismo</p>
-                        <p><strong>CPJRE:</strong> Sistema unificado cartório+SEMA com cross-training</p>
+                        <p><strong>CPJRE:</strong> Integração cartório+SEMA com servidores capacitados para ambas as áreas</p>
                         <p><strong>Oportunidade:</strong> Replicar modelo colaborativo nas outras coordenadorias</p>
                     </div>
                     
@@ -809,7 +623,7 @@
             </div>
         </div>
 
-        <!-- Slide 9: Plano de Implementação e Cronograma -->
+        <!-- Slide 8: Plano de Implementação e Cronograma -->
         <div class="slide">
             <h2 class="slide-title">📅 Plano de Implementação e Cronograma</h2>
 
@@ -818,22 +632,8 @@
                 <div class="two-column">
                     <div>
                         <p><strong>1.1 Gestão de Demandas Urgentes</strong></p>
-                        <p>• Criar matriz de priorização (Urgente x Importante)</p>
-                        <p>• Definir SLA por tipo de demanda</p>
-                        <p>• Implementar triagem centralizada</p>
-                        
                         <p><strong>1.2 Padronização de Fluxos</strong></p>
-                        <p>• Mapear processos críticos de cada subunidade</p>
-                        <p>• Criar procedimentos operacionais padrão (POPs)</p>
-                        <p>• Implementar checklists obrigatórios</p>
-                    </div>
-                    <div>
                         <p><strong>1.3 Redistribuição de Atividades</strong></p>
-                        <p>• Transferir atividades administrativas de SAD/SECAD</p>
-                        <p>• Equilibrar carga entre servidores do Cartório</p>
-                        <p>• Criar sistema de backup/substituição</p>
-                        
-                        <p><strong>Meta:</strong> Reduzir em 30% as demandas classificadas como urgentes</p>
                     </div>
                 </div>
             </div>
@@ -843,22 +643,8 @@
                 <div class="two-column">
                     <div>
                         <p><strong>2.1 Migração Completa para Teams</strong></p>
-                        <p>• Treinamento obrigatório para 100% da equipe</p>
-                        <p>• Desativação progressiva do WhatsApp</p>
-                        <p>• Criação de canais específicos por atividade</p>
-                        
                         <p><strong>2.2 Modernização de Sistemas</strong></p>
-                        <p>• Atualização do NeoGab e sistemas SEMA</p>
-                        <p>• Substituição de equipamentos obsoletos</p>
-                        <p>• Implementação de automações básicas</p>
-                    </div>
-                    <div>
                         <p><strong>2.3 Capacitação Digital</strong></p>
-                        <p>• Programa de alfabetização digital</p>
-                        <p>• Certificação em ferramentas do Office 365</p>
-                        <p>• Criação de embaixadores digitais</p>
-                        
-                        <p><strong>Meta:</strong> 100% dos membros utilizando Teams até dezembro/2025</p>
                     </div>
                 </div>
             </div>
@@ -868,22 +654,8 @@
                 <div class="two-column">
                     <div>
                         <p><strong>3.1 Cultura do Autocuidado</strong></p>
-                        <p>• Campanha "Cuidar de Si é Cuidar do Trabalho"</p>
-                        <p>• Política clara sobre afastamentos médicos</p>
-                        <p>• Reconhecimento de quem se afasta adequadamente</p>
-                        
                         <p><strong>3.2 Desenvolvimento de Lideranças</strong></p>
-                        <p>• Treinamento em gestão de equipes</p>
-                        <p>• Feedback contínuo e estruturado</p>
-                        <p>• Planos de sucessão documentados</p>
-                    </div>
-                    <div>
                         <p><strong>3.3 Comunicação e Integração</strong></p>
-                        <p>• Reuniões mensais entre coordenadorias</p>
-                        <p>• Sistema de comunicação oficial unificado</p>
-                        <p>• Solução para divisão geográfica (CPJRE)</p>
-                        
-                        <p><strong>Meta:</strong> Reduzir afastamentos por saúde em 25%</p>
                     </div>
                 </div>
             </div>
@@ -893,46 +665,14 @@
                 <div class="two-column">
                     <div>
                         <p><strong>4.1 Identificação de Oportunidades</strong></p>
-                        <p>• Análise de subunidades com excesso de pessoal</p>
-                        <p>• Mapeamento de déficits críticos</p>
-                        <p>• Avaliação de perfis e competências</p>
-                        
                         <p><strong>4.2 Planejamento de Movimentações</strong></p>
-                        <p>• Priorização por impacto operacional</p>
-                        <p>• Cronograma de transições graduais</p>
-                        <p>• Capacitação prévia dos servidores</p>
-                    </div>
-                    <div>
                         <p><strong>4.3 Implementação Faseada</strong></p>
-                        <p>• Fase 1: Movimentações críticas (déficits)</p>
-                        <p>• Fase 2: Otimizações secundárias</p>
-                        <p>• Acompanhamento de adaptação</p>
-                        
-                        <p><strong>Meta:</strong> Redistribuir até 4-6 servidores entre coordenadorias</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alert-box">
-                <div class="alert-title">🎯 Lógica dos Indicadores de Sucesso</div>
-                <div class="two-column">
-                    <div>
-                        <p><strong>Indicadores Quantitativos - Base Metodológica:</strong></p>
-                        <p>• <strong>30% redução demandas urgentes:</strong> Meta baseada na implementação do sistema de classificação e padronização de fluxos</p>
-                        <p>• <strong>100% utilização Teams:</strong> Eliminação completa do WhatsApp como ferramenta de trabalho oficial</p>
-                        <p>• <strong>25% redução afastamentos:</strong> Resultado esperado das campanhas de autocuidado e melhoria do ambiente</p>
-                    </div>
-                    <div>
-                        <p><strong>Indicadores Qualitativos - Impacto Organizacional:</strong></p>
-                        <p>• <strong>90% satisfação processos:</strong> Medida através de pesquisa de clima pós-implementação</p>
-                        <p>• <strong>Melhoria clima organizacional:</strong> Redução dos gargalos identificados no mapa</p>
-                        <p>• <strong>Aumento produtividade:</strong> Liberação de tempo através da otimização de processos</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Slide 8: Responsáveis por Implementação -->
+        <!-- Slide 9: Responsáveis por Implementação -->
         <div class="slide">
             <h2 class="slide-title">👥 Responsáveis por Implementação</h2>
             
@@ -940,13 +680,12 @@
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th colspan="2" style="background: #3498db;">COORDENADORIAS</th></tr>
+                            <tr><th colspan="2" style="background: #e74c3c;">Eixo 1: Otimização Imediata de Processos</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td><strong>Padronização de fluxos</strong></td><td>Gestores locais + Servidores experientes</td></tr>
-                            <tr><td><strong>Protocolos de urgência</strong></td><td>Chefes de Cartório + SEMA</td></tr>
-                            <tr><td><strong>Sistema de backup</strong></td><td>Coordenadores + Chefes de unidade</td></tr>
-                            <tr><td><strong>Capacitação local</strong></td><td>Servidores multiplicadores</td></tr>
+                            <tr><td><strong>Gestão de Demandas Urgentes</strong></td><td>Chefes de Cartório + SEMA</td></tr>
+                            <tr><td><strong>Padronização de Fluxos</strong></td><td>Gestores locais + Servidores experientes</td></tr>
+                            <tr><td><strong>Redistribuição de Atividades</strong></td><td>Coordenadores + Chefes de unidade</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -954,13 +693,12 @@
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th colspan="2" style="background: #e74c3c;">API (Assessoria de Políticas Institucionais)</th></tr>
+                            <tr><th colspan="2" style="background: #3498db;">Eixo 2: Transformação Tecnológica</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td><strong>Redistribuição de pessoal</strong></td><td>Planejamento estratégico de movimentações</td></tr>
-                            <tr><td><strong>Integração geográfica</strong></td><td>Unificação física CPJRE</td></tr>
-                            <tr><td><strong>Infraestrutura física</strong></td><td>Melhorias estruturais e adequações</td></tr>
-                            <tr><td><strong>Políticas institucionais</strong></td><td>Normatização de novos processos</td></tr>
+                            <tr><td><strong>Migração Completa para Teams</strong></td><td>STI + Servidores multiplicadores</td></tr>
+                            <tr><td><strong>Modernização de Sistemas</strong></td><td>STI + Coordenadorias</td></tr>
+                            <tr><td><strong>Capacitação Digital</strong></td><td>SECOR + STI</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -970,13 +708,12 @@
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th colspan="2" style="background: #27ae60;">STI (Superintendência de Tecnologia)</th></tr>
+                            <tr><th colspan="2" style="background: #27ae60;">Eixo 3: Transformação Cultural e Gestão</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td><strong>Modernização de sistemas</strong></td><td>Atualização NeoGab, SEMA e outros</td></tr>
-                            <tr><td><strong>Suporte técnico</strong></td><td>Manutenção e resolução de problemas</td></tr>
-                            <tr><td><strong>Ferramentas de comunicação</strong></td><td>Implementação e suporte Teams</td></tr>
-                            <tr><td><strong>Automação</strong></td><td>Desenvolvimento de soluções automatizadas</td></tr>
+                            <tr><td><strong>Cultura do Autocuidado</strong></td><td>SECOR + Coordenadorias</td></tr>
+                            <tr><td><strong>Desenvolvimento de Lideranças</strong></td><td>SECOR + Gestores locais</td></tr>
+                            <tr><td><strong>Comunicação e Integração</strong></td><td>API + Coordenadorias</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -984,40 +721,19 @@
                 <div class="table-container">
                     <table>
                         <thead>
-                            <tr><th colspan="2" style="background: #f39c12;">SECOR (Secretaria de Educação Corporativa)</th></tr>
+                            <tr><th colspan="2" style="background: #f39c12;">Eixo 4: Remanejamento Estratégico</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td><strong>Capacitação</strong></td><td>Treinamentos técnicos e comportamentais</td></tr>
-                            <tr><td><strong>Desenvolvimento de lideranças</strong></td><td>Formação de gestores e multiplicadores</td></tr>
-                            <tr><td><strong>Avaliação de resultados</strong></td><td>Monitoramento de indicadores</td></tr>
-                            <tr><td><strong>Gestão da mudança</strong></td><td>Acompanhamento da transformação cultural</td></tr>
+                            <tr><td><strong>Identificação de Oportunidades</strong></td><td>API + Coordenadorias</td></tr>
+                            <tr><td><strong>Planejamento de Movimentações</strong></td><td>API + Gestores locais</td></tr>
+                            <tr><td><strong>Implementação Faseada</strong></td><td>API + SECOR</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <div class="alert-box">
-                <div class="alert-title">🔄 Modelo de Governança</div>
-                <div class="two-column">
-                    <div>
-                        <p><strong>Comitê de Transformação:</strong></p>
-                        <p>• <strong>Coordenação:</strong> API (líder do projeto)</p>
-                        <p>• <strong>Membros:</strong> Representantes de STI, SECOR e Coordenadorias</p>
-                        <p>• <strong>Frequência:</strong> Reuniões quinzenais</p>
-                        <p>• <strong>Poder:</strong> Decisório para ajustes no plano</p>
-                    </div>
-                    <div>
-                        <p><strong>Grupos de Trabalho Temáticos:</strong></p>
-                        <p>• <strong>GT Processos:</strong> Coordenadorias + API</p>
-                        <p>• <strong>GT Tecnologia:</strong> STI + Coordenadorias</p>
-                        <p>• <strong>GT Pessoas:</strong> SECOR + Coordenadorias</p>
-                        <p>• <strong>Relatórios:</strong> Mensais ao Comitê</p>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        <!-- Slide 6: Análise de Sobrecarga -->
+        <!-- Slide 10: Plano de Ação Estratégico -->
         <div class="slide">
             <h2 class="slide-title">🎯 Plano de Ação Estratégico</h2>
             
@@ -1071,102 +787,7 @@
             </div>
         </div>
 
-        <!-- Slide 5: Análise de Riscos -->
-        <div class="slide">
-            <h2 class="slide-title">⚠️ Análise de Riscos e Planos de Contingência</h2>
-            
-            <div class="alert-box">
-                <div class="alert-title">📊 Metodologia de Cálculo das Probabilidades</div>
-                <p><strong>Base de Cálculo:</strong> Análise histórica do MPDFT + Experiência em projetos similares + Fatores ambientais identificados</p>
-                <p><strong>Escala:</strong> Baixa (0-30%) | Média (31-60%) | Alta (61-100%)</p>
-            </div>
-
-            <div class="two-column">
-                <div>
-                    <h3 style="margin-bottom: 15px; color: #e74c3c;">🚨 Riscos Críticos Identificados</h3>
-                    
-                    <div class="gargalo-item">
-                        <div class="gargalo-title">Alto Risco: Resistência à Mudança (70%)</div>
-                        <p><strong>Cálculo da Probabilidade:</strong></p>
-                        <p>• 45% dos servidores relatam baixa utilização de ferramentas oficiais</p>
-                        <p>• Histórico de resistência à implementação do Teams</p>
-                        <p>• Cultura consolidada de uso do WhatsApp</p>
-                        <p><strong>Impacto:</strong> Crítico - pode inviabilizar transformação digital</p>
-                        <p><strong>Contingência:</strong> Programa intensivo de change management</p>
-                    </div>
-                    
-                    <div class="gargalo-item">
-                        <div class="gargalo-title">Médio Risco: Aposentadorias Imprevistas (40%)</div>
-                        <p><strong>Cálculo da Probabilidade:</strong></p>
-                        <p>• Servidor previsto para aposentar em julho/2025 (CPJSA)</p>
-                        <p>• 3 aposentadorias previstas no SETDIL (CPJSA)</p>
-                        <p>• Idade média elevada em funções críticas</p>
-                        <p><strong>Impacto:</strong> Alto - perda de conhecimento tácito</p>
-                        <p><strong>Contingência:</strong> Documentação urgente + planos de sucessão</p>
-                    </div>
-                    
-                    <div class="gargalo-item">
-                        <div class="gargalo-title">Médio Risco: Orçamento Insuficiente (50%)</div>
-                        <p><strong>Cálculo da Probabilidade:</strong></p>
-                        <p>• Restrições orçamentárias 2025 já sinalizadas</p>
-                        <p>• Equipamentos obsoletos identificados (CPJPA)</p>
-                        <p>• Necessidade de reformas estruturais</p>
-                        <p><strong>Impacto:</strong> Médio - atraso na modernização</p>
-                        <p><strong>Contingência:</strong> Implementação incremental por fases</p>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 style="margin-bottom: 15px; color: #27ae60;">🛡️ Estratégias de Mitigação Detalhadas</h3>
-                    
-                    <div class="recomendacao">
-                        <div class="gargalo-title">2. Preservação de Conhecimento (Risco 40%)</div>
-                        <p><strong>Ações Imediatas:</strong></p>
-                        <p>• Mapeamento urgente de processos críticos dependentes de pessoas específicas</p>
-                        <p>• Gravação de vídeos explicativos com servidores experientes</p>
-                        <p>• Documentação de procedimentos não formalizados</p>
-                        
-                        <p><strong>Programa de Mentoria:</strong></p>
-                        <p>• Pareamento de veteranos com servidores mais jovens</p>
-                        <p>• Rotação de responsabilidades antes da aposentadoria</p>
-                        <p>• Base de conhecimento digital centralizada</p>
-                    </div>
-                    
-                    <div class="recomendacao">
-                        <div class="gargalo-title">3. Otimização Orçamentária (Risco 50%)</div>
-                        <p><strong>Demonstração de ROI:</strong></p>
-                        <p>• Cálculo de horas economizadas com automação</p>
-                        <p>• Redução de custos com melhor alocação de pessoal</p>
-                        <p>• Prevenção de custos com afastamentos por saúde</p>
-                        
-                        <p><strong>Implementação Escalonada:</strong></p>
-                        <p>• Priorizar investimentos com maior impacto</p>
-                        <p>• Buscar parcerias com outras superintendências</p>
-                        <p>• Aproveitar recursos já disponíveis (ex: licenças Office 365)</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alert-box">
-                <div class="alert-title">🎯 Plano de Monitoramento de Riscos - Explicação das Probabilidades</div>
-                <div class="two-column">
-                    <div>
-                        <p><strong>Resistência à Mudança (70%):</strong></p>
-                        <p>• <strong>Base:</strong> 45-50% ainda não usam Teams adequadamente</p>
-                        <p>• <strong>Histórico:</strong> Implementações anteriores tiveram resistência</p>
-                        <p>• <strong>Cultura:</strong> Preferência por ferramentas conhecidas (WhatsApp)</p>
-                    </div>
-                    <div>
-                        <p><strong>Aposentadorias (40%) e Orçamento (50%):</strong></p>
-                        <p>• <strong>Aposentadorias:</strong> Baseado em previsões oficiais + idade dos servidores</p>
-                        <p>• <strong>Orçamento:</strong> Histórico de cortes + necessidade alta de investimentos</p>
-                        <p>• <strong>Monitoramento:</strong> Mensal pelo Comitê de Transformação</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 6: Conclusões e Recomendações Finais -->
+        <!-- Slide 10: Conclusões e Recomendações Finais -->
         <div class="slide">
             <h2 class="slide-title">📈 Conclusões e Recomendações Finais</h2>
             
@@ -1176,7 +797,7 @@
                     
                     <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
                         <h4 style="color: #e74c3c; margin-bottom: 10px;">🔍 Paradoxo Confirmado</h4>
-                        <p>O <strong>superávit numérico de 11 servidores</strong> coexiste com <strong>alta percepção de sobrecarga</strong> em todas as coordenadorias. Isso comprova que o problema não é quantidade de pessoas, mas <strong>eficiência dos processos</strong>.</p>
+                        <p>O <strong>excedente aparente de 11 servidores</strong> coexiste com <strong>alta percepção de sobrecarga</strong> em todas as coordenadorias. Isso comprova que o problema não é quantidade de pessoas, mas <strong>eficiência dos processos</strong>.</p>
                     </div>
                     
                     <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
@@ -1199,17 +820,12 @@
                     </div>
                     
                     <div class="recomendacao" style="margin-bottom: 15px;">
-                        <div class="gargalo-title">2. Criação do Comitê de Transformação</div>
-                        <p>API + SECOR + STI + Coordenadores com reuniões quinzenais e poder decisório</p>
-                    </div>
-                    
-                    <div class="recomendacao" style="margin-bottom: 15px;">
-                        <div class="gargalo-title">3. Pilot Program em CPJPA</div>
+                        <div class="gargalo-title">2. Programa Piloto</div>
                         <p>Testar soluções na coordenadoria menor antes de expandir</p>
                     </div>
                     
                     <div class="recomendacao">
-                        <div class="gargalo-title">4. Orçamento Estratégico 2026</div>
+                        <div class="gargalo-title">3. Orçamento Estratégico 2026</div>
                         <p>Incluir recursos para modernização tecnológica no próximo orçamento</p>
                     </div>
 
@@ -1454,42 +1070,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             display: true,
                             text: 'Cronograma de Implementação'
                         }
-                    }
-                }
-            }
-        });
-    }
-
-    // Segundo cronograma, se necessário
-    const ctx6 = document.getElementById('cronogramaImplementacao2')?.getContext('2d');
-    if (ctx6) {
-        new Chart(ctx6, {
-            // Pode ser igual ao ctx5 ou personalizado
-            type: 'line',
-            data: {
-                labels: ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 6', 'Mês 9', 'Mês 12'],
-                datasets: [{
-                    label: 'Redução Sobrecarga (%)',
-                    data: [0, 10, 20, 35, 50, 60],
-                    borderColor: 'rgba(155, 89, 182, 1)',
-                    backgroundColor: 'rgba(155, 89, 182, 0.2)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Gráfico Extra Cronograma 2',
-                        font: { size: 14, weight: 'bold' }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
                     }
                 }
             }
